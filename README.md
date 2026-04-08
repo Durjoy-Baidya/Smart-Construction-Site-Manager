@@ -1,142 +1,116 @@
 # Smart Construction Site Manager
 
 ## Project Overview
-Smart Construction Site Manager is a planned desktop application developed in C# to support the daily operations of construction site management.
+Smart Construction Site Manager is a planned desktop application developed in C# to support construction site operations in a structured and efficient way.
 
-The purpose of this system is to provide one centralized platform where construction-related information can be managed in a structured and efficient way. The application is intended to help organize workers, tasks, attendance, materials, and project progress in order to reduce confusion, improve coordination, and support better decision-making on site.
-
----
-
-## Real-World Context
-Construction projects often involve multiple workers, supervisors, deadlines, materials, and daily operational changes. In many cases, important information is still tracked manually through paper notes, phone calls, messaging apps, or scattered spreadsheets.
-
-This can create major problems such as:
-- unclear task assignments
-- missing or inaccurate attendance records
-- poor material tracking
-- lack of visibility into project progress
-- delays caused by weak communication and disorganized information
-
-A digital management system can help reduce these problems by keeping all important site data in one place.
+The system centralizes key site information such as workers, tasks, attendance, materials, and project progress to improve coordination and decision-making.
 
 ---
 
 ## Problem Statement
-Construction site management can become inefficient when there is no structured system for tracking workers, tasks, attendance, materials, and progress.
+Construction sites often rely on scattered information (notes, calls, spreadsheets), which leads to:
 
-Without a centralized application:
-- managers may struggle to assign and monitor daily tasks
-- worker attendance may not be recorded consistently
-- material stock and usage may be poorly documented
-- project progress may be difficult to measure clearly
-- administrative control may become weak and disorganized
+- unclear task assignments  
+- inconsistent attendance tracking  
+- poor material management  
+- limited visibility of project progress  
+- communication delays  
 
-This project aims to solve these issues by designing a desktop management system that improves organization, transparency, and operational control.
-
----
-
-## Project Objectives
-The main objectives of this project are:
-- to create a structured desktop application for construction site management
-- to support different user roles with role-based access
-- to simplify worker and project administration
-- to improve task assignment and monitoring
-- to record attendance in a more reliable way
-- to track materials and support better project visibility
-- to apply Object-Oriented Programming concepts in a real-world application
+This project addresses these issues by designing a centralized management system.
 
 ---
 
-## Target Users
-This system is designed for the following users:
+## Solution
+A desktop application that provides:
+
+- centralized data management  
+- role-based system access  
+- structured task and project tracking  
+- improved operational control  
+
+---
+
+## Objectives
+- Design a structured construction management system  
+- Implement role-based access (Admin, Site Manager, Worker)  
+- Improve task assignment and monitoring  
+- Provide reliable attendance tracking  
+- Manage materials efficiently  
+- Apply Object-Oriented Programming in a real-world scenario  
+
+---
+
+## User Roles
 
 ### Admin
-The admin has full control over the system and is responsible for managing users, workers, and overall project information.
+Manages users, system structure, and overall control.
 
 ### Site Manager
-The site manager is responsible for daily site operations such as assigning tasks, recording attendance, and monitoring work progress.
+Handles daily operations including tasks, attendance, materials, and issue reporting.
 
 ### Worker
-The worker interacts with the system in a limited way, mainly to view assigned tasks and check relevant information.
+Views assigned tasks and interacts with limited system features.
 
 ---
 
-## Planned Features
+## Core Features
 
-### 1. Authentication and Access Control
-- User login
-- Role-based access control
-- Secure access based on user type
-
-### 2. Worker Management
-- Add new workers
-- Edit worker details
-- Delete workers
-- View worker list and information
-
-### 3. Project Management
-- Create construction projects
-- Store project details
-- Assign project responsibility
-- View active project information
-
-### 4. Task Management
-- Assign tasks to workers
-- Update task status
-- Track pending, active, and completed tasks
-
-### 5. Attendance Tracking
-- Record daily attendance
-- View attendance history
-- Improve attendance monitoring for site activities
-
-### 6. Material Tracking
-- Store material information
-- Track available stock
-- Record material usage
-
-### 7. Progress Monitoring
-- Monitor project progress
-- Track overall completion status
-- Improve visibility of ongoing work
+- User Authentication & Role-Based Access  
+- Worker Management  
+- Project Management  
+- Task Assignment & Tracking  
+- Attendance Monitoring  
+- Material Tracking  
+- Issue Reporting  
+- Dashboard Overview  
 
 ---
 
-## System Value
-The uniqueness of the project comes from combining multiple important construction management functions into one system:
-- workforce coordination
-- task assignment
-- attendance monitoring
-- material control
-- progress tracking
+## System Design
+
+### ERD
+Represents database structure including User, Project, Task, Attendance, Material, and Issue Report.
+
+### UML
+Shows system interactions between Admin, Site Manager, and Worker.
+
+### Wireframes
+Provide a visual structure of the planned user interface.
+
+---
 
 ## Technologies
-The project is planned with the following technologies:
-- **C#**
-- **.NET**
-- **Desktop GUI** (Windows Forms or WPF)
-- **Database**
-- **Git & GitHub**
+
+- C#  
+- .NET  
+- Object-Oriented Programming  
+- Desktop GUI (Windows Forms / WPF)  
+- Database  
+- Git & GitHub  
 
 ---
 
 ## Project Status
-The project is currently in the **planning and design phase**.
+Currently in planning and design phase.
 
-The current work includes:
-- project idea selection
-- real-world problem identification
-- feature planning
-- user role definition
-- GitHub project setup and documentation
+Completed:
+- Project idea and problem definition  
+- Feature planning  
+- ERD and UML design  
+- Wireframes  
+- Website presentation  
 
-The next stages will include:
-- class design
-- database design
-- user interface planning
-- implementation in C#
+Next Steps:
+- Class design  
+- Database implementation  
+- Desktop application development  
 
+---
 
+## Live Website
+👉 https://durjoy-baidya.github.io/Smart-Construction-Site-Manager/
+
+---
 
 ## Author
-**Durjoy Baidya**
+Durjoy Baidya
