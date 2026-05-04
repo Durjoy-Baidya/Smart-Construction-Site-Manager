@@ -1,116 +1,115 @@
 # Smart Construction Site Manager
 
+Smart Construction Site Manager is a C# WinForms desktop application for managing construction site operations. It helps organize workers, projects, tasks, attendance, materials, and issue reports in one centralized system.
+
 ## Project Overview
-Smart Construction Site Manager is a planned desktop application developed in C# to support construction site operations in a structured and efficient way.
 
-The system centralizes key site information such as workers, tasks, attendance, materials, and project progress to improve coordination and decision-making.
+This project was developed as a university desktop application. The goal is to create a realistic but simple construction site management system with a user-friendly GUI, database integration, object-oriented design, and basic security awareness.
 
----
+## Technologies Used
 
-## Problem Statement
-Construction sites often rely on scattered information (notes, calls, spreadsheets), which leads to:
+- C#
+- Windows Forms
+- .NET `net10.0-windows`
+- SQLite
+- Microsoft.Data.Sqlite
+- Git and GitHub
 
-- unclear task assignments  
-- inconsistent attendance tracking  
-- poor material management  
-- limited visibility of project progress  
-- communication delays  
+## Main Features
 
-This project addresses these issues by designing a centralized management system.
+- Login system with user roles
+- Dashboard overview
+- Worker management
+- Project management
+- Task management
+- Attendance tracking
+- Material tracking
+- Issue reporting
+- Search and filter options
+- Add, edit, delete, and view actions
+- Realistic seed data
 
----
+## Default Login Accounts
 
-## Solution
-A desktop application that provides:
+| Role | Email | Password |
+| --- | --- | --- |
+| Admin | `admin@site.com` | `admin123` |
+| Site Manager | `manager@site.com` | `manager123` |
+| Worker | `worker@site.com` | `worker123` |
 
-- centralized data management  
-- role-based system access  
-- structured task and project tracking  
-- improved operational control  
+## Data Included
 
----
+The application includes starter seed data:
 
-## Objectives
-- Design a structured construction management system  
-- Implement role-based access (Admin, Site Manager, Worker)  
-- Improve task assignment and monitoring  
-- Provide reliable attendance tracking  
-- Manage materials efficiently  
-- Apply Object-Oriented Programming in a real-world scenario  
+- 3 users
+- 20 workers
+- 20 projects
+- 20 tasks
+- 20 attendance records
+- 20 materials
+- 20 issue reports
 
----
+## Database
 
-## User Roles
+The application uses SQLite for local database storage. Data is loaded and saved through an `IAppDataStore` interface and a `SqliteAppDataStore` implementation.
 
-### Admin
-Manages users, system structure, and overall control.
+The database stores:
 
-### Site Manager
-Handles daily operations including tasks, attendance, materials, and issue reporting.
+- Users
+- Workers
+- Projects
+- Tasks
+- Attendance records
+- Materials
+- Issue reports
 
-### Worker
-Views assigned tasks and interacts with limited system features.
+## Security Awareness
 
----
+- Login is required before accessing the dashboard.
+- Passwords are stored as SHA-256 hashes, not plain text.
+- User roles are included: Admin, Site Manager, and Worker.
+- Password auto-suggestion/storage was intentionally not added.
 
-## Core Features
+## Object-Oriented Design
 
-- User Authentication & Role-Based Access  
-- Worker Management  
-- Project Management  
-- Task Assignment & Tracking  
-- Attendance Monitoring  
-- Material Tracking  
-- Issue Reporting  
-- Dashboard Overview  
+The project uses model and service classes such as:
 
----
+- `UserAccount`
+- `WorkerRecord`
+- `ProjectRecord`
+- `TaskRecord`
+- `AttendanceRecord`
+- `MaterialRecord`
+- `IssueReportRecord`
+- `AuthenticationService`
+- `SqliteAppDataStore`
 
-## System Design
+The dashboard is split into separate partial classes for each page to keep the code organized.
 
-### ERD
-Represents database structure including User, Project, Task, Attendance, Material, and Issue Report.
+## How To Run
 
-### UML
-Shows system interactions between Admin, Site Manager, and Worker.
+Open a terminal in the solution folder:
 
-### Wireframes
-Provide a visual structure of the planned user interface.
+```powershell
+cd "G:\Smart Construction Site Manager(App)"
+```
 
----
+Run the app:
 
-## Technologies
+```powershell
+dotnet run --project SmartConstructionSiteManagement\SmartConstructionSiteManagement.csproj
+```
 
-- C#  
-- .NET  
-- Object-Oriented Programming  
-- Desktop GUI (Windows Forms / WPF)  
-- Database  
-- Git & GitHub  
+## Build Verification
 
----
+The project was verified using:
 
-## Project Status
-Currently in planning and design phase.
+```powershell
+dotnet build SmartConstructionSiteManagement\SmartConstructionSiteManagement.csproj --no-restore -p:UseAppHost=false -o .build-verify-final-report
+```
 
-Completed:
-- Project idea and problem definition  
-- Feature planning  
-- ERD and UML design  
-- Wireframes  
-- Website presentation  
-
-Next Steps:
-- Class design  
-- Database implementation  
-- Desktop application development  
-
----
-
-## Live Website
-👉 https://durjoy-baidya.github.io/Smart-Construction-Site-Manager/
-
----
+The build completed with 0 warnings and 0 errors.
 
 ## Author
+
 Durjoy Baidya
