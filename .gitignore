@@ -1,0 +1,35 @@
+# Build outputs
+bin/
+obj/
+[Bb]in/
+[Oo]bj/
+
+# Verification/build test folders
+.build-verify*/
+
+# Visual Studio / VS Code local files
+.vs/
+.vscode/
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# .NET generated files
+*.nupkg
+project.assets.json
+project.nuget.cache
+*.AssemblyInfo.cs
+*.GeneratedMSBuildEditorConfig.editorconfig
+
+# Local database files
+*.db
+*.sqlite
+*.sqlite3
+
+# Logs
+*.log
+
+# OS files
+.DS_Store
+Thumbs.db
