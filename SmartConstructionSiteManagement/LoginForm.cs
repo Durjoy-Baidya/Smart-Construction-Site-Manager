@@ -141,6 +141,7 @@ public partial class LoginForm : Form
             VisitedLinkColor = PrimaryBlue
         };
         forgotPasswordLink.LinkBehavior = LinkBehavior.NeverUnderline;
+        forgotPasswordLink.LinkClicked += ResetPassword;
         loginCard.Controls.Add(forgotPasswordLink);
 
         Resize += (_, _) => CenterCard(loginCard);
@@ -264,6 +265,39 @@ public partial class LoginForm : Form
         dashboardForm.FormClosed += (_, _) => Close();
         dashboardForm.Show();
         Hide();
+    }
+
+    private void ResetPassword(object? sender, LinkLabelLinkClickedEventArgs e)
+    {
+        if (string.IsNullOrWhiteSpace(emailTextBox.Text))
+        {
+            MessageBox.Show(
+                "Enter your email address first, then click Forgot Password again.",
+                "Forgot Password",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Information);
+            emailTextBox.Focus();
+            return;
+        }
+
+        string? resetPassword = authenticationService.ResetPassword(emailTextBox.Text);
+
+        if (resetPassword == null)
+        {
+            MessageBox.Show(
+                "No demo account was found for this email address.",
+                "Forgot Password",
+                MessageBoxButtons.OK,
+                MessageBoxIcon.Warning);
+            return;
+        }
+
+        passwordTextBox.Text = resetPassword;
+        MessageBox.Show(
+            $"For this local university demo, your password was reset to: {resetPassword}\n\nIn a real system, a reset link would be sent by email.",
+            "Password Reset",
+            MessageBoxButtons.OK,
+            MessageBoxIcon.Information);
     }
 }
 

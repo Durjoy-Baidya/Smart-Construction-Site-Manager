@@ -216,6 +216,24 @@ public partial class DashboardForm : Form
         return allMenuItems;
     }
 
+    private bool CanAddWorkers() => currentUser.Role == UserRole.Admin;
+
+    private bool CanManageWorkers() => currentUser.Role is UserRole.Admin or UserRole.SiteManager;
+
+    private bool CanDeleteWorkers() => currentUser.Role == UserRole.Admin;
+
+    private bool CanManageProjects() => currentUser.Role is UserRole.Admin or UserRole.SiteManager;
+
+    private bool CanManageTasks() => currentUser.Role is UserRole.Admin or UserRole.SiteManager;
+
+    private bool CanManageAttendance() => currentUser.Role is UserRole.Admin or UserRole.SiteManager;
+
+    private bool CanManageMaterials() => currentUser.Role is UserRole.Admin or UserRole.SiteManager;
+
+    private bool CanReportIssues() => currentUser.Role is UserRole.Admin or UserRole.SiteManager or UserRole.Worker;
+
+    private bool CanDeleteIssues() => currentUser.Role is UserRole.Admin or UserRole.SiteManager;
+
     private Panel BuildHeader()
     {
         Panel headerPanel = new()

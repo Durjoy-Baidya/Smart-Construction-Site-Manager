@@ -47,6 +47,7 @@ public partial class DashboardForm
 
         Button addButton = CreateActionButton("Add Task", PrimaryBlue, 0);
         addButton.Top = 18;
+        addButton.Visible = CanManageTasks();
         filterPanel.Controls.Add(addButton);
 
         FlowLayoutPanel statPanel = new()
@@ -97,8 +98,14 @@ public partial class DashboardForm
         void ArrangeTasksPage()
         {
             filterPanel.Width = contentPanel.ClientSize.Width - 68;
-            addButton.Left = filterPanel.Width - addButton.Width - 16;
-            priorityComboBox.Left = addButton.Left - priorityComboBox.Width - 20;
+            int rightEdge = filterPanel.Width - 16;
+            if (addButton.Visible)
+            {
+                addButton.Left = rightEdge - addButton.Width;
+                rightEdge = addButton.Left - 20;
+            }
+
+            priorityComboBox.Left = rightEdge - priorityComboBox.Width;
             statusComboBox.Left = priorityComboBox.Left - statusComboBox.Width - 16;
             searchTextBox.Width = Math.Min(520, Math.Max(320, statusComboBox.Left - searchTextBox.Left - 28));
             statPanel.Width = contentPanel.ClientSize.Width - 68;
@@ -111,7 +118,10 @@ public partial class DashboardForm
         searchTextBox.TextChanged += (_, _) => RefreshTasksTable();
         statusComboBox.SelectedIndexChanged += (_, _) => RefreshTasksTable();
         priorityComboBox.SelectedIndexChanged += (_, _) => RefreshTasksTable();
-        addButton.Click += (_, _) => AddTask(RefreshTasksTable);
+        if (CanManageTasks())
+        {
+            addButton.Click += (_, _) => AddTask(RefreshTasksTable);
+        }
         contentPanel.Resize += (_, _) => ArrangeTasksPage();
         RefreshTaskStats();
         ArrangeTasksPage();
@@ -124,7 +134,9 @@ public partial class DashboardForm
         tablePanel.Controls.Clear();
 
         int[] columnWidths = GetTaskColumnWidths(tablePanel.Width);
-        string[] headers = ["Task Name", "Project", "Assigned To", "Priority", "Status", "Due Date", "Actions"];
+        string[] headers = CanManageTasks()
+            ? ["Task Name", "Project", "Assigned To", "Priority", "Status", "Due Date", "Actions"]
+            : ["Task Name", "Project", "Assigned To", "Priority", "Status", "Due Date"];
 
         Panel headerPanel = new()
         {
@@ -157,10 +169,12 @@ public partial class DashboardForm
         tablePanel.ResumeLayout();
     }
 
-    private static int[] GetTaskColumnWidths(int tableWidth)
+    private int[] GetTaskColumnWidths(int tableWidth)
     {
         int contentWidth = Math.Max(1125, tableWidth - 28);
-        int[] baseWidths = [240, 170, 170, 110, 130, 120, 185];
+        int[] baseWidths = CanManageTasks()
+            ? [240, 170, 170, 110, 130, 120, 185]
+            : [300, 220, 220, 140, 155, 90];
         double scale = contentWidth / 1125.0;
 
         return baseWidths
@@ -196,13 +210,16 @@ public partial class DashboardForm
         rowPanel.Controls.Add(CreateTableCell(task.DueDateText, left, columnWidths[5]));
         left += columnWidths[5];
 
-        Button editButton = CreateRowActionButton("Edit", PrimaryBlue, left + 6);
-        editButton.Click += (_, _) => EditTask(task, refreshTable);
-        rowPanel.Controls.Add(editButton);
+        if (CanManageTasks())
+        {
+            Button editButton = CreateRowActionButton("Edit", PrimaryBlue, left + 6);
+            editButton.Click += (_, _) => EditTask(task, refreshTable);
+            rowPanel.Controls.Add(editButton);
 
-        Button deleteButton = CreateRowActionButton("Delete", Red, left + 76);
-        deleteButton.Click += (_, _) => DeleteTask(task, refreshTable);
-        rowPanel.Controls.Add(deleteButton);
+            Button deleteButton = CreateRowActionButton("Delete", Red, left + 76);
+            deleteButton.Click += (_, _) => DeleteTask(task, refreshTable);
+            rowPanel.Controls.Add(deleteButton);
+        }
 
         AddTableRowSeparator(rowPanel);
         return rowPanel;

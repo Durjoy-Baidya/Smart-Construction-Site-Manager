@@ -48,6 +48,7 @@ public partial class DashboardForm
 
         Button addButton = CreateActionButton("Add Worker", PrimaryBlue, 0);
         addButton.Top = 18;
+        addButton.Visible = CanAddWorkers();
         filterPanel.Controls.Add(addButton);
 
         FlowLayoutPanel statPanel = new()
@@ -98,8 +99,14 @@ public partial class DashboardForm
         void ArrangeWorkersPage()
         {
             filterPanel.Width = contentPanel.ClientSize.Width - 68;
-            addButton.Left = filterPanel.Width - addButton.Width - 16;
-            statusComboBox.Left = addButton.Left - statusComboBox.Width - 20;
+            int rightEdge = filterPanel.Width - 16;
+            if (addButton.Visible)
+            {
+                addButton.Left = rightEdge - addButton.Width;
+                rightEdge = addButton.Left - 20;
+            }
+
+            statusComboBox.Left = rightEdge - statusComboBox.Width;
             roleComboBox.Left = statusComboBox.Left - roleComboBox.Width - 16;
             searchTextBox.Width = Math.Min(520, Math.Max(320, roleComboBox.Left - searchTextBox.Left - 28));
             statPanel.Width = contentPanel.ClientSize.Width - 68;
@@ -112,7 +119,10 @@ public partial class DashboardForm
         searchTextBox.TextChanged += (_, _) => RefreshWorkersTable();
         roleComboBox.SelectedIndexChanged += (_, _) => RefreshWorkersTable();
         statusComboBox.SelectedIndexChanged += (_, _) => RefreshWorkersTable();
-        addButton.Click += (_, _) => AddWorker(RefreshWorkersTable);
+        if (CanAddWorkers())
+        {
+            addButton.Click += (_, _) => AddWorker(RefreshWorkersTable);
+        }
         contentPanel.Resize += (_, _) => ArrangeWorkersPage();
         RefreshWorkerStats();
         ArrangeWorkersPage();
@@ -246,13 +256,19 @@ public partial class DashboardForm
         rowPanel.Controls.Add(CreateStatusBadge(worker.Status, left + 6, 19));
         left += columnWidths[6];
 
-        Button editButton = CreateRowActionButton("Edit", PrimaryBlue, left + 6);
-        editButton.Click += (_, _) => EditWorker(worker, refreshTable);
-        rowPanel.Controls.Add(editButton);
+        if (CanManageWorkers())
+        {
+            Button editButton = CreateRowActionButton("Edit", PrimaryBlue, left + 6);
+            editButton.Click += (_, _) => EditWorker(worker, refreshTable);
+            rowPanel.Controls.Add(editButton);
+        }
 
-        Button deleteButton = CreateRowActionButton("Delete", Red, left + 76);
-        deleteButton.Click += (_, _) => DeleteWorker(worker, refreshTable);
-        rowPanel.Controls.Add(deleteButton);
+        if (CanDeleteWorkers())
+        {
+            Button deleteButton = CreateRowActionButton("Delete", Red, left + 76);
+            deleteButton.Click += (_, _) => DeleteWorker(worker, refreshTable);
+            rowPanel.Controls.Add(deleteButton);
+        }
 
         AddTableRowSeparator(rowPanel);
         return rowPanel;

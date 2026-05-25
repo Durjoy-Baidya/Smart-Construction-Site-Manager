@@ -64,6 +64,7 @@ public partial class DashboardForm
         Button addButton = CreateActionButton("Mark Attendance", PrimaryBlue, 0);
         addButton.Size = new Size(180, 36);
         addButton.Top = 18;
+        addButton.Visible = CanManageAttendance();
         filterPanel.Controls.Add(addButton);
 
         FlowLayoutPanel statPanel = new()
@@ -119,8 +120,14 @@ public partial class DashboardForm
         void ArrangeAttendancePage()
         {
             filterPanel.Width = contentPanel.ClientSize.Width - 68;
-            addButton.Left = filterPanel.Width - addButton.Width - 16;
-            statusComboBox.Left = addButton.Left - statusComboBox.Width - 20;
+            int rightEdge = filterPanel.Width - 16;
+            if (addButton.Visible)
+            {
+                addButton.Left = rightEdge - addButton.Width;
+                rightEdge = addButton.Left - 20;
+            }
+
+            statusComboBox.Left = rightEdge - statusComboBox.Width;
             projectComboBox.Left = statusComboBox.Left - projectComboBox.Width - 16;
             dateFilterPicker.Left = projectComboBox.Left - dateFilterPicker.Width - 16;
             searchTextBox.Width = Math.Min(420, Math.Max(260, dateFilterPicker.Left - searchTextBox.Left - 22));
@@ -141,7 +148,10 @@ public partial class DashboardForm
         };
         projectComboBox.SelectedIndexChanged += (_, _) => RefreshAttendanceTable();
         statusComboBox.SelectedIndexChanged += (_, _) => RefreshAttendanceTable();
-        addButton.Click += (_, _) => AddAttendanceRecord(RefreshAttendanceTable);
+        if (CanManageAttendance())
+        {
+            addButton.Click += (_, _) => AddAttendanceRecord(RefreshAttendanceTable);
+        }
         contentPanel.Resize += (_, _) => ArrangeAttendancePage();
         RefreshAttendanceStats();
         ArrangeAttendancePage();

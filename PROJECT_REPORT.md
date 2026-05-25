@@ -35,6 +35,12 @@ Default demo accounts:
 
 The login system checks the entered email and password before opening the dashboard.
 
+The dashboard also applies simple role-based access:
+
+- Admin can manage all modules.
+- Site Manager can manage site work modules and edit worker details, but cannot delete workers.
+- Worker can access Dashboard, Tasks, and Issue Reports with limited actions.
+
 ### Dashboard
 
 The dashboard gives a quick overview of the construction site data, including workers, projects, tasks, materials, and recent activity.
@@ -191,6 +197,7 @@ The project includes basic security awareness:
 - Passwords are hashed using SHA-256 before being saved or checked.
 - Login is required before accessing the dashboard.
 - Different roles exist: Admin, Site Manager, and Worker.
+- Role-based access controls hide actions that are not allowed for the logged-in role.
 - Password suggestion/storage was intentionally not added, because storing typed passwords would be insecure.
 
 For a university project, SHA-256 hashing is better than plain text. In a real production system, a stronger password hashing method with salt, such as BCrypt or PBKDF2, would be recommended.

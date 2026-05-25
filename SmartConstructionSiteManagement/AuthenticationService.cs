@@ -40,6 +40,29 @@ public class AuthenticationService
             user.PasswordHash == passwordHash);
     }
 
+    public string? ResetPassword(string email)
+    {
+        ApplicationData data = LoadOrCreateData();
+        string? defaultPassword = GetDefaultPassword(email);
+
+        if (defaultPassword == null)
+        {
+            return null;
+        }
+
+        UserAccount? user = data.Users.FirstOrDefault(user =>
+            user.Email.Equals(email.Trim(), StringComparison.OrdinalIgnoreCase));
+
+        if (user == null)
+        {
+            return null;
+        }
+
+        user.PasswordHash = PasswordHasher.Hash(defaultPassword);
+        appDataStore.Save(data);
+        return defaultPassword;
+    }
+
     public ApplicationData LoadOrCreateData()
     {
         ApplicationData data = appDataStore.Load() ?? new ApplicationData();
@@ -58,6 +81,17 @@ public class AuthenticationService
         }
 
         return data;
+    }
+
+    private static string? GetDefaultPassword(string email)
+    {
+        return email.Trim().ToLowerInvariant() switch
+        {
+            "admin@site.com" => "admin123",
+            "manager@site.com" => "manager123",
+            "worker@site.com" => "worker123",
+            _ => null
+        };
     }
 }
 

@@ -49,6 +49,7 @@ public partial class DashboardForm
         Button addButton = CreateActionButton("Add Material", PrimaryBlue, 0);
         addButton.Size = new Size(140, 36);
         addButton.Top = 18;
+        addButton.Visible = CanManageMaterials();
         filterPanel.Controls.Add(addButton);
 
         FlowLayoutPanel statPanel = new()
@@ -101,8 +102,14 @@ public partial class DashboardForm
         void ArrangeMaterialsPage()
         {
             filterPanel.Width = contentPanel.ClientSize.Width - 68;
-            addButton.Left = filterPanel.Width - addButton.Width - 16;
-            statusComboBox.Left = addButton.Left - statusComboBox.Width - 20;
+            int rightEdge = filterPanel.Width - 16;
+            if (addButton.Visible)
+            {
+                addButton.Left = rightEdge - addButton.Width;
+                rightEdge = addButton.Left - 20;
+            }
+
+            statusComboBox.Left = rightEdge - statusComboBox.Width;
             categoryComboBox.Left = statusComboBox.Left - categoryComboBox.Width - 16;
             searchTextBox.Width = Math.Min(520, Math.Max(320, categoryComboBox.Left - searchTextBox.Left - 28));
             statPanel.Width = contentPanel.ClientSize.Width - 68;
@@ -115,7 +122,10 @@ public partial class DashboardForm
         searchTextBox.TextChanged += (_, _) => RefreshMaterialsTable();
         categoryComboBox.SelectedIndexChanged += (_, _) => RefreshMaterialsTable();
         statusComboBox.SelectedIndexChanged += (_, _) => RefreshMaterialsTable();
-        addButton.Click += (_, _) => AddMaterial(RefreshMaterialsTable);
+        if (CanManageMaterials())
+        {
+            addButton.Click += (_, _) => AddMaterial(RefreshMaterialsTable);
+        }
         contentPanel.Resize += (_, _) => ArrangeMaterialsPage();
         RefreshMaterialStats();
         ArrangeMaterialsPage();
@@ -253,13 +263,16 @@ public partial class DashboardForm
         rowPanel.Controls.Add(CreateMaterialStatusBadge(material.Status, left + 4, 19));
         left += columnWidths[6];
 
-        Button editButton = CreateRowActionButton("Edit", PrimaryBlue, left + 6);
-        editButton.Click += (_, _) => EditMaterial(material, refreshTable);
-        rowPanel.Controls.Add(editButton);
+        if (CanManageMaterials())
+        {
+            Button editButton = CreateRowActionButton("Edit", PrimaryBlue, left + 6);
+            editButton.Click += (_, _) => EditMaterial(material, refreshTable);
+            rowPanel.Controls.Add(editButton);
 
-        Button deleteButton = CreateRowActionButton("Delete", Red, left + 76);
-        deleteButton.Click += (_, _) => DeleteMaterial(material, refreshTable);
-        rowPanel.Controls.Add(deleteButton);
+            Button deleteButton = CreateRowActionButton("Delete", Red, left + 76);
+            deleteButton.Click += (_, _) => DeleteMaterial(material, refreshTable);
+            rowPanel.Controls.Add(deleteButton);
+        }
 
         AddTableRowSeparator(rowPanel);
         return rowPanel;

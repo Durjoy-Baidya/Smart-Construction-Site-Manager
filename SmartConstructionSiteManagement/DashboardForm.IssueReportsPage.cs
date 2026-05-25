@@ -57,6 +57,7 @@ public partial class DashboardForm
         Button addButton = CreateActionButton("Report New Issue", PrimaryBlue, 0);
         addButton.Size = new Size(170, 36);
         addButton.Top = 18;
+        addButton.Visible = CanReportIssues();
         filterPanel.Controls.Add(addButton);
 
         FlowLayoutPanel statPanel = new()
@@ -107,8 +108,14 @@ public partial class DashboardForm
         void ArrangeIssueReportsPage()
         {
             filterPanel.Width = contentPanel.ClientSize.Width - 68;
-            addButton.Left = filterPanel.Width - addButton.Width - 16;
-            projectComboBox.Left = addButton.Left - projectComboBox.Width - 20;
+            int rightEdge = filterPanel.Width - 16;
+            if (addButton.Visible)
+            {
+                addButton.Left = rightEdge - addButton.Width;
+                rightEdge = addButton.Left - 20;
+            }
+
+            projectComboBox.Left = rightEdge - projectComboBox.Width;
             priorityComboBox.Left = projectComboBox.Left - priorityComboBox.Width - 16;
             statusComboBox.Left = priorityComboBox.Left - statusComboBox.Width - 16;
             searchTextBox.Width = Math.Min(420, Math.Max(260, statusComboBox.Left - searchTextBox.Left - 28));
@@ -123,7 +130,10 @@ public partial class DashboardForm
         statusComboBox.SelectedIndexChanged += (_, _) => RefreshIssuesTable();
         priorityComboBox.SelectedIndexChanged += (_, _) => RefreshIssuesTable();
         projectComboBox.SelectedIndexChanged += (_, _) => RefreshIssuesTable();
-        addButton.Click += (_, _) => AddIssueReport(RefreshIssuesTable);
+        if (CanReportIssues())
+        {
+            addButton.Click += (_, _) => AddIssueReport(RefreshIssuesTable);
+        }
         contentPanel.Resize += (_, _) => ArrangeIssueReportsPage();
         RefreshIssueStats();
         ArrangeIssueReportsPage();
@@ -212,9 +222,12 @@ public partial class DashboardForm
         viewButton.Click += (_, _) => ViewIssueReport(issue);
         rowPanel.Controls.Add(viewButton);
 
-        Button deleteButton = CreateRowActionButton("Delete", Red, left + 76);
-        deleteButton.Click += (_, _) => DeleteIssueReport(issue, refreshTable);
-        rowPanel.Controls.Add(deleteButton);
+        if (CanDeleteIssues())
+        {
+            Button deleteButton = CreateRowActionButton("Delete", Red, left + 76);
+            deleteButton.Click += (_, _) => DeleteIssueReport(issue, refreshTable);
+            rowPanel.Controls.Add(deleteButton);
+        }
 
         AddTableRowSeparator(rowPanel);
         return rowPanel;

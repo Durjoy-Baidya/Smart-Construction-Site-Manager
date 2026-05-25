@@ -18,6 +18,7 @@ This project was developed as a university desktop application. The goal is to c
 ## Main Features
 
 - Login system with user roles
+- Role-based access control
 - Dashboard overview
 - Worker management
 - Project management
@@ -68,6 +69,7 @@ The database stores:
 - Login is required before accessing the dashboard.
 - Passwords are stored as SHA-256 hashes, not plain text.
 - User roles are included: Admin, Site Manager, and Worker.
+- Each role sees only the pages/actions allowed for that account.
 - Password auto-suggestion/storage was intentionally not added.
 
 ## Object-Oriented Design

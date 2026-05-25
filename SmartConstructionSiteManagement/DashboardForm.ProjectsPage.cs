@@ -42,6 +42,7 @@ public partial class DashboardForm
 
         Button addButton = CreateActionButton("Add Project", PrimaryBlue, 0);
         addButton.Top = 18;
+        addButton.Visible = CanManageProjects();
         filterPanel.Controls.Add(addButton);
 
         FlowLayoutPanel statPanel = new()
@@ -92,8 +93,14 @@ public partial class DashboardForm
         void ArrangeProjectsPage()
         {
             filterPanel.Width = contentPanel.ClientSize.Width - 68;
-            addButton.Left = filterPanel.Width - addButton.Width - 16;
-            statusComboBox.Left = addButton.Left - statusComboBox.Width - 20;
+            int rightEdge = filterPanel.Width - 16;
+            if (addButton.Visible)
+            {
+                addButton.Left = rightEdge - addButton.Width;
+                rightEdge = addButton.Left - 20;
+            }
+
+            statusComboBox.Left = rightEdge - statusComboBox.Width;
             searchTextBox.Width = Math.Min(520, Math.Max(320, statusComboBox.Left - searchTextBox.Left - 28));
             statPanel.Width = contentPanel.ClientSize.Width - 68;
             List<ProjectRecord> filteredProjects = GetFilteredProjects(searchTextBox.Text, statusComboBox.Text);
@@ -104,7 +111,10 @@ public partial class DashboardForm
 
         searchTextBox.TextChanged += (_, _) => RefreshProjectsTable();
         statusComboBox.SelectedIndexChanged += (_, _) => RefreshProjectsTable();
-        addButton.Click += (_, _) => AddProject(RefreshProjectsTable);
+        if (CanManageProjects())
+        {
+            addButton.Click += (_, _) => AddProject(RefreshProjectsTable);
+        }
         contentPanel.Resize += (_, _) => ArrangeProjectsPage();
         RefreshProjectStats();
         ArrangeProjectsPage();
@@ -189,13 +199,16 @@ public partial class DashboardForm
         rowPanel.Controls.Add(CreateTableCell(project.Manager, left, columnWidths[5]));
         left += columnWidths[5];
 
-        Button editButton = CreateRowActionButton("Edit", PrimaryBlue, left + 6);
-        editButton.Click += (_, _) => EditProject(project, refreshTable);
-        rowPanel.Controls.Add(editButton);
+        if (CanManageProjects())
+        {
+            Button editButton = CreateRowActionButton("Edit", PrimaryBlue, left + 6);
+            editButton.Click += (_, _) => EditProject(project, refreshTable);
+            rowPanel.Controls.Add(editButton);
 
-        Button deleteButton = CreateRowActionButton("Delete", Red, left + 76);
-        deleteButton.Click += (_, _) => DeleteProject(project, refreshTable);
-        rowPanel.Controls.Add(deleteButton);
+            Button deleteButton = CreateRowActionButton("Delete", Red, left + 76);
+            deleteButton.Click += (_, _) => DeleteProject(project, refreshTable);
+            rowPanel.Controls.Add(deleteButton);
+        }
 
         AddTableRowSeparator(rowPanel);
         return rowPanel;
