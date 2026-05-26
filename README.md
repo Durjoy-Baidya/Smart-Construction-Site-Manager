@@ -6,9 +6,9 @@ Project website: https://durjoy-baidya.github.io/Smart-Construction-Site-Manager
 
 ## Project Overview
 
-This project was developed as a university desktop application. The goal is to create a realistic but simple construction site management system with a user-friendly GUI, database integration, object-oriented design, and basic security awareness.
+This project was developed as a desktop application for managing construction site operations. The goal is to create a realistic but simple construction site management system with a user-friendly GUI, database integration, object-oriented design, and basic security awareness.
 
-The current version is functionally complete for the final university project submission.
+The current version is functionally complete for the final project submission.
 
 ## Technologies Used
 
