@@ -10,7 +10,7 @@ public partial class DashboardForm
 {
     private void ShowAttendanceContent()
     {
-        contentPanel.Controls.Clear();
+        ResetContentPanel();
 
         contentPanel.Controls.Add(CreateModuleTitle("Attendance Management"));
 
@@ -152,7 +152,7 @@ public partial class DashboardForm
         {
             addButton.Click += (_, _) => AddAttendanceRecord(RefreshAttendanceTable);
         }
-        contentPanel.Resize += (_, _) => ArrangeAttendancePage();
+        SetContentPanelResizeHandler((_, _) => ArrangeAttendancePage());
         RefreshAttendanceStats();
         ArrangeAttendancePage();
         RefreshAttendanceTable();
@@ -200,7 +200,7 @@ public partial class DashboardForm
     private static int[] GetAttendanceColumnWidths(int tableWidth)
     {
         int contentWidth = Math.Max(1125, tableWidth - 28);
-        int[] baseWidths = [210, 95, 180, 130, 130, 130, 130, 120];
+        int[] baseWidths = [205, 90, 175, 125, 125, 125, 125, 155];
         double scale = contentWidth / 1125.0;
 
         return baseWidths
@@ -238,9 +238,16 @@ public partial class DashboardForm
         rowPanel.Controls.Add(CreateAttendanceStatusBadge(record.Status, left + 4, 19));
         left += columnWidths[6];
 
-        Button viewButton = CreateOutlineActionButton("View", PrimaryBlue, left + 6);
-        viewButton.Click += (_, _) => ViewAttendanceRecord(record);
-        rowPanel.Controls.Add(viewButton);
+        if (CanManageAttendance())
+        {
+            Button editButton = CreateRowActionButton("Edit", PrimaryBlue, left + 6);
+            editButton.Click += (_, _) => EditAttendanceRecord(record, refreshTable);
+            rowPanel.Controls.Add(editButton);
+
+            Button deleteButton = CreateRowActionButton("Delete", Red, left + 76);
+            deleteButton.Click += (_, _) => DeleteAttendanceRecord(record, refreshTable);
+            rowPanel.Controls.Add(deleteButton);
+        }
 
         AddTableRowSeparator(rowPanel);
         return rowPanel;
@@ -309,15 +316,6 @@ public partial class DashboardForm
         attendanceRecords.Add(dialog.Attendance);
         SaveApplicationData();
         refreshTable();
-    }
-
-    private void ViewAttendanceRecord(AttendanceRecord record)
-    {
-        MessageBox.Show(
-            $"Worker: {record.WorkerName}\nID: {record.WorkerCode}\nProject: {record.ProjectName}\nDate: {record.DateText}\nCheck In: {record.CheckIn}\nCheck Out: {record.CheckOut}\nStatus: {record.Status}",
-            "Attendance Details",
-            MessageBoxButtons.OK,
-            MessageBoxIcon.Information);
     }
 
     private void EditAttendanceRecord(AttendanceRecord record, Action refreshTable)

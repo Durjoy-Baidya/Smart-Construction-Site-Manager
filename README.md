@@ -2,9 +2,13 @@
 
 Smart Construction Site Manager is a C# WinForms desktop application for managing construction site operations. It helps organize workers, projects, tasks, attendance, materials, and issue reports in one centralized system.
 
+Project website: https://durjoy-baidya.github.io/Smart-Construction-Site-Manager/
+
 ## Project Overview
 
 This project was developed as a university desktop application. The goal is to create a realistic but simple construction site management system with a user-friendly GUI, database integration, object-oriented design, and basic security awareness.
+
+The current version is functionally complete for the final university project submission.
 
 ## Technologies Used
 
@@ -13,6 +17,7 @@ This project was developed as a university desktop application. The goal is to c
 - .NET `net10.0-windows`
 - SQLite
 - Microsoft.Data.Sqlite
+- SHA-256 password hashing
 - Git and GitHub
 
 ## Main Features
@@ -29,6 +34,14 @@ This project was developed as a university desktop application. The goal is to c
 - Search and filter options
 - Add, edit, delete, and view actions
 - Realistic seed data
+
+## Role-Based Access
+
+| Role | Access |
+| --- | --- |
+| Admin | Can access all pages and add, edit, delete, and view records. |
+| Site Manager | Can access all pages, manage daily site data, and edit workers, but cannot add or delete workers. |
+| Worker | Can access only Dashboard, Tasks, and Issue Reports. Tasks are view-only; issue reports can be viewed and created, but not deleted. |
 
 ## Default Login Accounts
 

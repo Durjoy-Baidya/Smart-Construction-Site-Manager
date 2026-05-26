@@ -10,7 +10,7 @@ public partial class DashboardForm
 {
     private void ShowTasksContent()
     {
-        contentPanel.Controls.Clear();
+        ResetContentPanel();
 
         contentPanel.Controls.Add(CreateModuleTitle("Task Management"));
 
@@ -122,7 +122,7 @@ public partial class DashboardForm
         {
             addButton.Click += (_, _) => AddTask(RefreshTasksTable);
         }
-        contentPanel.Resize += (_, _) => ArrangeTasksPage();
+        SetContentPanelResizeHandler((_, _) => ArrangeTasksPage());
         RefreshTaskStats();
         ArrangeTasksPage();
         RefreshTasksTable();

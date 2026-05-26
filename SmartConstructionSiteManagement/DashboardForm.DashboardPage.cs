@@ -10,7 +10,7 @@ public partial class DashboardForm
 {
     private void ShowDashboardContent()
     {
-        contentPanel.Controls.Clear();
+        ResetContentPanel();
 
         FlowLayoutPanel metricsPanel = new()
         {
@@ -54,7 +54,7 @@ public partial class DashboardForm
             ArrangeQuickStats(quickStatsPanel);
         }
 
-        contentPanel.Resize += (_, _) => ArrangeLowerPanels();
+        SetContentPanelResizeHandler((_, _) => ArrangeLowerPanels());
         ArrangeLowerPanels();
     }
 

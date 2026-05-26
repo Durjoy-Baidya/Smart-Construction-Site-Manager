@@ -10,7 +10,7 @@ public partial class DashboardForm
 {
     private void ShowWorkersContent()
     {
-        contentPanel.Controls.Clear();
+        ResetContentPanel();
 
         Label titleLabel = CreateModuleTitle("Workers Management");
         contentPanel.Controls.Add(titleLabel);
@@ -123,7 +123,7 @@ public partial class DashboardForm
         {
             addButton.Click += (_, _) => AddWorker(RefreshWorkersTable);
         }
-        contentPanel.Resize += (_, _) => ArrangeWorkersPage();
+        SetContentPanelResizeHandler((_, _) => ArrangeWorkersPage());
         RefreshWorkerStats();
         ArrangeWorkersPage();
         RefreshWorkersTable();

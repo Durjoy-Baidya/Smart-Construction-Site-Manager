@@ -10,7 +10,7 @@ public partial class DashboardForm
 {
     private void ShowProjectsContent()
     {
-        contentPanel.Controls.Clear();
+        ResetContentPanel();
 
         contentPanel.Controls.Add(CreateModuleTitle("Projects Management"));
 
@@ -115,7 +115,7 @@ public partial class DashboardForm
         {
             addButton.Click += (_, _) => AddProject(RefreshProjectsTable);
         }
-        contentPanel.Resize += (_, _) => ArrangeProjectsPage();
+        SetContentPanelResizeHandler((_, _) => ArrangeProjectsPage());
         RefreshProjectStats();
         ArrangeProjectsPage();
         RefreshProjectsTable();

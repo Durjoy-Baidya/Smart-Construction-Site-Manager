@@ -17,6 +17,7 @@ public partial class DashboardForm : Form
     private readonly IAppDataStore appDataStore;
     private readonly UserAccount currentUser;
     private Panel contentPanel = null!;
+    private EventHandler? contentPanelResizeHandler;
     private SidebarNavButton selectedButton = null!;
     private readonly BindingList<WorkerRecord> workers = new(SeedData.CreateDefaultWorkers());
     private readonly BindingList<ProjectRecord> projects = new(SeedData.CreateDefaultProjects());
@@ -102,6 +103,28 @@ public partial class DashboardForm : Form
         {
             target.Add(item);
         }
+    }
+
+    private void ResetContentPanel()
+    {
+        if (contentPanelResizeHandler != null)
+        {
+            contentPanel.Resize -= contentPanelResizeHandler;
+            contentPanelResizeHandler = null;
+        }
+
+        contentPanel.Controls.Clear();
+    }
+
+    private void SetContentPanelResizeHandler(EventHandler resizeHandler)
+    {
+        if (contentPanelResizeHandler != null)
+        {
+            contentPanel.Resize -= contentPanelResizeHandler;
+        }
+
+        contentPanelResizeHandler = resizeHandler;
+        contentPanel.Resize += contentPanelResizeHandler;
     }
 
     private void BuildDashboardUI()
@@ -397,7 +420,7 @@ public partial class DashboardForm : Form
 
     private void ShowModulePlaceholder(string moduleName)
     {
-        contentPanel.Controls.Clear();
+        ResetContentPanel();
         contentPanel.Controls.Add(CreateModuleTitle(moduleName));
 
         RoundedPanel panel = new()

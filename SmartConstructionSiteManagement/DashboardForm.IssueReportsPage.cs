@@ -10,7 +10,7 @@ public partial class DashboardForm
 {
     private void ShowIssueReportsContent()
     {
-        contentPanel.Controls.Clear();
+        ResetContentPanel();
 
         contentPanel.Controls.Add(CreateModuleTitle("Issue Reporting"));
 
@@ -134,7 +134,7 @@ public partial class DashboardForm
         {
             addButton.Click += (_, _) => AddIssueReport(RefreshIssuesTable);
         }
-        contentPanel.Resize += (_, _) => ArrangeIssueReportsPage();
+        SetContentPanelResizeHandler((_, _) => ArrangeIssueReportsPage());
         RefreshIssueStats();
         ArrangeIssueReportsPage();
         RefreshIssuesTable();

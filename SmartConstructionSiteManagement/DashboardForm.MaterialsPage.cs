@@ -10,7 +10,7 @@ public partial class DashboardForm
 {
     private void ShowMaterialsContent()
     {
-        contentPanel.Controls.Clear();
+        ResetContentPanel();
 
         contentPanel.Controls.Add(CreateModuleTitle("Materials Management"));
 
@@ -126,7 +126,7 @@ public partial class DashboardForm
         {
             addButton.Click += (_, _) => AddMaterial(RefreshMaterialsTable);
         }
-        contentPanel.Resize += (_, _) => ArrangeMaterialsPage();
+        SetContentPanelResizeHandler((_, _) => ArrangeMaterialsPage());
         RefreshMaterialStats();
         ArrangeMaterialsPage();
         RefreshMaterialsTable();

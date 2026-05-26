@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Smart Construction Site Manager</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --blue: #2563eb;
+      --ink: #0f172a;
+      --muted: #64748b;
+      --line: #dbe3ef;
+      --panel: #ffffff;
+      --bg: #f6f8fc;
+      --green: #16a34a;
+      --orange: #ea580c;
+      --red: #dc2626;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      color: var(--ink);
+      background: var(--bg);
+      line-height: 1.5;
+    }
+
+    header {
+      background: linear-gradient(135deg, #1d4ed8 0%, #2563eb 55%, #0f172a 100%);
+      color: white;
+      padding: 56px 24px 48px;
+    }
+
+    .wrap {
+      width: min(1120px, 100%);
+      margin: 0 auto;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1.1fr 0.9fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 0 0 12px;
+      font-size: clamp(34px, 5vw, 58px);
+      line-height: 1.05;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      max-width: 680px;
+      margin: 0 0 26px;
+      color: #dbeafe;
+      font-size: 19px;
+    }
+
+    .actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 44px;
+      padding: 10px 16px;
+      border-radius: 6px;
+      text-decoration: none;
+      font-weight: 700;
+    }
+
+    .button.primary {
+      background: white;
+      color: var(--blue);
+    }
+
+    .button.secondary {
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      color: white;
+    }
+
+    .app-card {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      border-radius: 8px;
+      padding: 22px;
+    }
+
+    .app-title {
+      margin: 0 0 16px;
+      font-size: 18px;
+      color: #e0f2fe;
+      font-weight: 700;
+    }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .metric {
+      background: rgba(255, 255, 255, 0.14);
+      border-radius: 6px;
+      padding: 14px;
+    }
+
+    .metric strong {
+      display: block;
+      font-size: 28px;
+      line-height: 1;
+    }
+
+    .metric span {
+      color: #dbeafe;
+      font-size: 13px;
+    }
+
+    main {
+      padding: 34px 24px 50px;
+    }
+
+    section {
+      margin-top: 30px;
+    }
+
+    h2 {
+      margin: 0 0 14px;
+      font-size: 28px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .panel {
+      background: var(--panel);
+      border: 1px solid var(--line);
+      border-radius: 8px;
+      padding: 20px;
+      box-shadow: 0 10px 26px rgba(15, 23, 42, 0.04);
+    }
+
+    .panel h3 {
+      margin: 0 0 8px;
+      font-size: 18px;
+    }
+
+    .panel p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .modules {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 10px;
+    }
+
+    .module {
+      background: white;
+      border: 1px solid var(--line);
+      border-top: 4px solid var(--blue);
+      border-radius: 8px;
+      padding: 14px 10px;
+      text-align: center;
+      font-weight: 700;
+      min-height: 74px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .roles {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
+
+    .role-header {
+      margin: -20px -20px 16px;
+      padding: 14px 20px;
+      color: white;
+      font-size: 20px;
+      font-weight: 800;
+      border-radius: 8px 8px 0 0;
+    }
+
+    .admin {
+      background: var(--red);
+    }
+
+    .manager {
+      background: var(--orange);
+    }
+
+    .worker {
+      background: var(--blue);
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--muted);
+    }
+
+    li + li {
+      margin-top: 8px;
+    }
+
+    code {
+      background: #e8eef8;
+      border-radius: 4px;
+      padding: 2px 5px;
+      color: #0f172a;
+    }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 24px;
+      color: var(--muted);
+      text-align: center;
+    }
+
+    @media (max-width: 900px) {
+      .hero,
+      .grid,
+      .roles {
+        grid-template-columns: 1fr;
+      }
+
+      .modules {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 520px) {
+      header {
+        padding-top: 34px;
+      }
+
+      .metric-grid,
+      .modules {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap hero">
+      <div>
+        <h1>Smart Construction Site Manager</h1>
+        <p class="subtitle">A C# WinForms desktop application for managing workers, projects, tasks, attendance, materials, and issue reports in one local SQLite system.</p>
+        <div class="actions">
+          <a class="button primary" href="https://github.com/Durjoy-Baidya/Smart-Construction-Site-Manager">View GitHub Repository</a>
+          <a class="button secondary" href="#features">Explore Features</a>
+        </div>
+      </div>
+      <div class="app-card" aria-label="Project summary">
+        <p class="app-title">Final project snapshot</p>
+        <div class="metric-grid">
+          <div class="metric"><strong>7</strong><span>main modules</span></div>
+          <div class="metric"><strong>3</strong><span>user roles</span></div>
+          <div class="metric"><strong>20</strong><span>records per module</span></div>
+          <div class="metric"><strong>0</strong><span>build warnings</span></div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <section id="features">
+        <h2>What The App Does</h2>
+        <div class="modules">
+          <div class="module">Dashboard</div>
+          <div class="module">Workers</div>
+          <div class="module">Projects</div>
+          <div class="module">Tasks</div>
+          <div class="module">Attendance</div>
+          <div class="module">Materials</div>
+          <div class="module">Issue Reports</div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Project Highlights</h2>
+        <div class="grid">
+          <article class="panel">
+            <h3>Desktop Management System</h3>
+            <p>Built with C# and Windows Forms to provide a focused desktop experience for construction site operations.</p>
+          </article>
+          <article class="panel">
+            <h3>SQLite Persistence</h3>
+            <p>Records are saved locally through <code>Microsoft.Data.Sqlite</code> and remain available between app sessions.</p>
+          </article>
+          <article class="panel">
+            <h3>Security Awareness</h3>
+            <p>Login is required, passwords are stored as SHA-256 hashes, and role permissions hide unavailable actions.</p>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>Role-Based Access</h2>
+        <div class="roles">
+          <article class="panel">
+            <div class="role-header admin">Admin</div>
+            <ul>
+              <li>Can access all pages.</li>
+              <li>Can add, edit, delete, and view records.</li>
+              <li>Has full control over workers and reports.</li>
+            </ul>
+          </article>
+          <article class="panel">
+            <div class="role-header manager">Site Manager</div>
+            <ul>
+              <li>Can access all pages.</li>
+              <li>Can manage projects, tasks, attendance, materials, and issue reports.</li>
+              <li>Can view and edit workers, but cannot add or delete workers.</li>
+            </ul>
+          </article>
+          <article class="panel">
+            <div class="role-header worker">Worker</div>
+            <ul>
+              <li>Can access Dashboard, Tasks, and Issue Reports.</li>
+              <li>Tasks are view-only.</li>
+              <li>Can report and view issues, but cannot delete issue reports.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <h2>Technology Stack</h2>
+        <div class="grid">
+          <article class="panel">
+            <h3>C# / WinForms</h3>
+            <p>Object-oriented Windows desktop application targeting <code>net10.0-windows</code>.</p>
+          </article>
+          <article class="panel">
+            <h3>SQLite</h3>
+            <p>Embedded database storage using an <code>IAppDataStore</code> interface and <code>SqliteAppDataStore</code> implementation.</p>
+          </article>
+          <article class="panel">
+            <h3>GitHub</h3>
+            <p>Repository history, source code, and final project documentation are maintained in GitHub.</p>
+          </article>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="wrap">
+      Durjoy Baidya · Inspiration Lab YP0566 · Final Project · May 2026
+    </div>
+  </footer>
+</body>
+</html>
